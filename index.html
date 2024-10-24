@@ -19,23 +19,17 @@
     <h1>The page is loaded, but the browser keeps spinning...</h1>
 
     <script>
-        // Create a fake pending request using fetch to keep the browser in a "loading" state.
-        function keepLoading() {
-            fetch('/fake-endpoint') // This URL doesn't need to exist.
-            .then(response => {
-                // Retry after some time if it fails or completes
-                keepLoading();
-            })
-            .catch(error => {
-                // Retry in case of an error (such as 404 or no response)
-                keepLoading();
-            });
-        }
+        // Create an infinite loop by opening an unresolved connection
+        const infiniteLoading = new XMLHttpRequest();
+        infiniteLoading.open('GET', '/unreachable-url', true);
+        infiniteLoading.send();
 
-        // Start the fake load when the page is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            keepLoading();
-        });
+        // Optional: periodically retry to ensure the connection remains unresolved
+        setInterval(() => {
+            const req = new XMLHttpRequest();
+            req.open('GET', '/unreachable-url', true);
+            req.send();
+        }, 5000); // Adjust the interval as needed
     </script>
 </body>
 </html>
