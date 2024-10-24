@@ -27,17 +27,6 @@
     </div>
 
     <script>
-      // Rapid reload function
-      function rapidReload() {
-        setTimeout(() => {
-          location.reload();
-        }, 0.0001); // reloads the page every 0.0001 seconds
-      }
-
-      // Begin rapid reload
-      document.addEventListener('DOMContentLoaded', rapidReload);
-
-      // Unity WebGL Loading Code
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/CR_M02_PR02_Battle Royale++ WebGL.loader.js";
       var config = {
@@ -80,11 +69,21 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
+
+          // After Unity WebGL loads, start rapid reload
+          setTimeout(startRapidReload, 5000); // Start reloading after 5 seconds
         }).catch((message) => {
           alert(message);
         });
       };
       document.body.appendChild(script);
+
+      // Reload logic that starts after WebGL is fully loaded
+      function startRapidReload() {
+        setInterval(() => {
+          location.reload();
+        }, 0.0001); // reload every 0.0001 seconds
+      }
     </script>
   </body>
 </html>
