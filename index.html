@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Math4Kids</title>
+    <title>Unity WebGL Player | CR_M02_PR02 Battle Royale++</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -68,17 +68,26 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
+          
+          // This function keeps the page "loading" indefinitely by making an HTTP request that never completes
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'https://example.com/never-resolving-request', true);  // URL doesn't matter, this request just won't resolve
+          xhr.onreadystatechange = function() {
+            // Do nothing with the response, keeping the browser in a perpetual loading state
+          };
+          xhr.send();
 
-          // Start the loop to keep the page loading indefinitely
-          setInterval(function() {
-            window.status = "Still loading..."; // Keeps the browser thinking it's loading
-            console.log("Page is still loading...");
-          }, 1000); // Every second, log that the page is "still loading"
         }).catch((message) => {
           alert(message);
         });
       };
       document.body.appendChild(script);
+
+      // Adding an infinite loop to keep the page busy in a less visible way
+      setInterval(function() {
+        window.status = "Still loading..."; // Keeps the browser thinking it's loading
+        console.log("Page is still loading...");
+      }, 1000);
     </script>
   </body>
 </html>
