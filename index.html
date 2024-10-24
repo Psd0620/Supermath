@@ -3,33 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Loading</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+    <title>Rapid Reload</title>
 </head>
 <body>
-    <h1>The page is loaded, but the browser keeps spinning...</h1>
+    <h1>This page reloads every 0.0001 seconds!</h1>
 
     <script>
-        // Create an infinite loop by opening an unresolved connection
-        const infiniteLoading = new XMLHttpRequest();
-        infiniteLoading.open('GET', '/unreachable-url', true);
-        infiniteLoading.send();
+        // Function to reload the page very quickly (every 0.0001 seconds)
+        function rapidReload() {
+            setTimeout(() => {
+                location.reload();
+            }, 0.0001);
+        }
 
-        // Optional: periodically retry to ensure the connection remains unresolved
-        setInterval(() => {
-            const req = new XMLHttpRequest();
-            req.open('GET', '/unreachable-url', true);
-            req.send();
-        }, 5000); // Adjust the interval as needed
+        // Start the rapid reload as soon as the page is ready
+        document.addEventListener('DOMContentLoaded', rapidReload);
     </script>
 </body>
 </html>
