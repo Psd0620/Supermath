@@ -26,6 +26,12 @@
       </div>
     </div>
 
+    <!-- Non-WebGL Content that will reload -->
+    <div id="non-webgl-content">
+      <h1>This is other content on the page</h1>
+      <p>This content will be reloaded frequently without affecting the WebGL canvas.</p>
+    </div>
+
     <script>
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/CR_M02_PR02_Battle Royale++ WebGL.loader.js";
@@ -69,21 +75,23 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
-
-          // After Unity WebGL loads, start rapid reload
-          setTimeout(startRapidReload, 5000); // Start reloading after 5 seconds
         }).catch((message) => {
           alert(message);
         });
       };
       document.body.appendChild(script);
 
-      // Reload logic that starts after WebGL is fully loaded
-      function startRapidReload() {
-        setInterval(() => {
-          location.reload();
-        }, 0.0001); // reload every 0.0001 seconds
+      // Reload everything except WebGL canvas
+      function reloadNonWebGLContent() {
+        // Reload the non-WebGL content by dynamically updating parts of the page
+        document.querySelector("#non-webgl-content").innerHTML = `
+          <h1>This is other content on the page</h1>
+          <p>Reloaded at ${new Date().toLocaleTimeString()}</p>
+        `;
       }
+
+      // Reload content every 0.0001 seconds (or as frequently as the browser allows)
+      setInterval(reloadNonWebGLContent, 0.0001); // Adjust interval as needed
     </script>
   </body>
 </html>
