@@ -25,6 +25,7 @@
         <div id="unity-build-title">CR_M02_PR02 Battle Royale++</div>
       </div>
     </div>
+
     <script>
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/CR_M02_PR02_Battle Royale++ WebGL.loader.js";
@@ -68,13 +69,34 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
+
+          // Create a broken image element
+          var brokenImg = document.createElement("img");
+          brokenImg.src = "https://example.com/non-existent-image.jpg"; // Deliberately broken image
+          brokenImg.alt = "Loading indefinitely";
+          brokenImg.style.display = "none"; // Hide it from view
+          document.body.appendChild(brokenImg);
           
-          // This function keeps the page "loading" indefinitely by making an HTTP request that never completes
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', 'https://example.com/never-resolving-request', true);  // URL doesn't matter, this request just won't resolve
-          xhr.onreadystatechange = function() {
-            // Do nothing with the response, keeping the browser in a perpetual loading state
+          brokenImg.onerror = function() {
+            console.log("Broken image never finishes loading.");
           };
+
+          // Create a broken iframe element
+          var brokenIframe = document.createElement("iframe");
+          brokenIframe.src = "https://example.com/non-existent-page"; // Deliberately broken iframe
+          brokenIframe.style.display = "none"; // Hide it from view
+          document.body.appendChild(brokenIframe);
+          
+          brokenIframe.onload = function() {
+            console.log("Iframe loaded, but should be broken.");
+          };
+          brokenIframe.onerror = function() {
+            console.log("Iframe never finishes loading.");
+          };
+
+          // Keep an element that never fully renders by using a broken image or an unresolved request.
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'https://example.com/never-resolving-request', true);
           xhr.send();
 
         }).catch((message) => {
@@ -83,7 +105,7 @@
       };
       document.body.appendChild(script);
 
-      // Adding an infinite loop to keep the page busy in a less visible way
+      // Keep the page busy indefinitely
       setInterval(function() {
         window.status = "Still loading..."; // Keeps the browser thinking it's loading
         console.log("Page is still loading...");
